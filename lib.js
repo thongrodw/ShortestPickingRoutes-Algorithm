@@ -18,54 +18,51 @@ let shortestDistanceNode = (distances, visited) => {
     return shortest;
 };
 
-// //Find the Shortest Route from graph
-let shortestRoute = (graph, startNode, endNode) => {
-    let distances = {};
-    distances[endNode] = "Infinity";
-    distances = Object.assign(distances, graph[startNode]);
+//Nearest Node
+function nearestNode(distances){
+    let node = Object.entries(distances).sort(([,a],[,b]) => a-b).reduce((r, [k, v]) => ({ ...r, [k]: v }), {})
+    return Object.keys(node)[0]
+}
 
-   // track paths using a hash object
+//Find the Shortest Route from graph
+let shortestRoute = (graph, startNode, endNode) => {
+
+    //distance
+    let distances = graph[startNode]
+
+    // track paths using a hash object
     let parents = { endNode: null };
     for (let child in graph[startNode]) {
         parents[child] = startNode;
     }
-     
+    
     // collect visited nodes
     let visited = [];
-    // find the nearest node
-    let node = shortestDistanceNode(distances, visited);
-    
-    // for that node:
+
+    //Find nearest node 
+    let node = nearestNode(distances)
+
     while (node) {
-    // find its distance from the start node & its child nodes
         let distance = distances[node];
         let children = graph[node]; 
-        
+
         // for each of those child nodes:
         for (let child in children) {
-        // make sure each child node is not the start node
             if (String(child) === String(startNode)) {
                 continue;
             } else {
-            // save the distance from the start node to the child node
                 let newdistance = distance + children[child];
-            // if there's no recorded distance from the start node to the child node in the distances object
-            // or if the recorded distance is shorter than the previously stored distance from the start node to the child node
                 if (!distances[child] || distances[child] > newdistance) {
-                // save the distance to the object
                     distances[child] = newdistance;
-                // record the path
                     parents[child] = node;
                 } 
             }
         }  
-        // move the current node to the visited set
         visited.push(node);
-        // move to the nearest neighbor node
+        // move to the nearest non-visited node
         node = shortestDistanceNode(distances, visited);
     }
      
-    // using the stored paths from start node to end node
     // record the shortest path
     let shortestPath = [endNode];
     let parent = parents[endNode];
@@ -84,7 +81,21 @@ let shortestRoute = (graph, startNode, endNode) => {
     return results;
 };
 
+//Total Distance
+let totalDistance = (graph,startNode,endNode) => {
+    if(endNode == '' || null) return shortestRoute(graph,'P',startNode).distance+shortestRoute(graph,startNode,'P').distance
+    else{
+        let pickupToStartNode = shortestRoute(graph,'P',startNode)
+        let startNodeToEndNode = shortestRoute(graph,startNode,endNode)
+        let endNodeToPickup = shortestRoute(graph,endNode,'P')
+        return pickupToStartNode.distance+startNodeToEndNode.distance+endNodeToPickup.distance
+    }    
+}
+
+
 module.exports = {
     shortestDistanceNode,
-    shortestRoute
+    nearestNode,
+    shortestRoute,
+    totalDistance
 }
