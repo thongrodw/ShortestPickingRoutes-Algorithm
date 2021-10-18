@@ -1,13 +1,13 @@
 # shortestPickingRoutes
 
-How to run the program
+## How to run the program
 
 - Clone this repository
 - Install the application `npm install`
 - Start the application `npm run start` running on PORT `8080`
 - Go to http://localhost:8080/
 
-How to run unit test
+## How to run unit test
 
 - Go to directory `/test/test.js`
 - Run `node test.js`
@@ -37,7 +37,7 @@ console.log(calculateTotalDistance('AE'))
 console.log(calculateTotalDistance('BC'))
 
 ```
-Unit Test Result 
+## Unit Test Result 
 
 ```js
 10
@@ -54,7 +54,7 @@ Unit Test Result
 
 ```
 
-Time Efficiency Analysis
+## Time Efficiency Analysis
 
 ```js
 
