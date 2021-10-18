@@ -57,17 +57,61 @@ Unit Test Result
 Time Efficiency Analysis
 
 ```js
-function countVowels(word) {
-    var vowels = ['a', 'i', 'e', 'o', 'u'];
-    var count = 0;
-		for (var i = 0; i < word.length; i++) {
-        for (var j = 0; j < vowels.length; j++) {
-            if (word[i] === vowels[j]) {
-                count++;
-            }
-        }
+
+let shortestRoute = (graph, startNode, endNode) => {
+
+    //distance
+    let distances = graph[startNode]
+
+    // track paths using a hash object
+    let parents = { endNode: null };
+    for (let child in graph[startNode]) {
+        parents[child] = startNode;
     }
-    return count;
-}
+    
+    // collect visited nodes
+    let visited = [];
+
+    //Find nearest node 
+    let node = nearestNode(distances)
+
+    while (node) {
+        let distance = distances[node];
+        let children = graph[node]; 
+
+        // for each of those child nodes:
+        for (let child in children) {
+            if (String(child) === String(startNode)) {
+                continue;
+            } else {
+                let newdistance = distance + children[child];
+                if (!distances[child] || distances[child] > newdistance) {
+                    distances[child] = newdistance;
+                    parents[child] = node;
+                } 
+            }
+        }  
+        visited.push(node);
+        // move to the nearest non-visited node
+        node = shortestDistanceNode(distances, visited);
+    }
+     
+    // record the shortest path
+    let shortestPath = [endNode];
+    let parent = parents[endNode];
+    while (parent) {
+        shortestPath.push(parent);
+        parent = parents[parent];
+    }
+    shortestPath.reverse();
+     
+    //this is the shortest path
+    let results = {
+        distance: distances[endNode],
+        path: shortestPath,
+    };
+    // return the shortest path & the end node's distance from the start node
+    return results;
+};
 
 ```
