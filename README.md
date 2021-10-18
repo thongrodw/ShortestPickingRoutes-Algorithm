@@ -37,6 +37,22 @@ console.log(calculateTotalDistance('AE'))
 console.log(calculateTotalDistance('BC'))
 
 ```
+Result 
+
+```js
+10
+12
+10
+6
+8
+8
+13
+14
+11
+10
+17
+
+```
 
 Time Efficiency Analysis
 
