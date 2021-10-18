@@ -37,7 +37,7 @@ console.log(calculateTotalDistance('AE'))
 console.log(calculateTotalDistance('BC'))
 
 ```
-Result 
+Unit Test Result 
 
 ```js
 10
